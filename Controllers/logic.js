@@ -443,27 +443,38 @@ getonesubject=(req,res)=>{
 }
 updatesubject=(req,res)=>{
     const {name,code,id}=req.body
-    subjects.findOne({_id:id}).then(data=>{
-        if(data){
-
-            data.name=name
-            data.code=code
-            data.save()
-            res.status(200).json({
-                message:"updated",
-                status:true,
-                statuscde:404
-            })
-        }
-        else{
+    subjects.findOne({code}).then(sub=>{
+        if(sub){
             res.status(404).json({
-                message:"not found",
+                message:"Subject Code Exists",
                 status:false,
                 statuscde:404
             })
         }
-    })
-}
+        else{
+            subjects.findOne({_id:id}).then(data=>{
+                if(data){
+        
+                    data.name=name
+                    data.code=code
+                    data.save()
+                    res.status(200).json({
+                        message:"updated",
+                        status:true,
+                        statuscde:404
+                    })
+                }
+                else{
+                    res.status(404).json({
+                        message:"not found",
+                        status:false,
+                        statuscde:404
+                    })
+                }
+            })
+        }
+        })
+    }
 addclass=(req,res)=>{
     const {name,numerical,division,date}=req.body
     classes.findOne({name,division}).then(data=>{
