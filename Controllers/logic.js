@@ -79,8 +79,8 @@ tregister = (req, res) => {
 
 
 login = (req, res) => {
-    const { id, psw } = req.body
-    students.findOne({ id, psw }).then(user => {
+    const { sid, psw } = req.body
+    students.findOne({ sid, psw }).then(user => {
         if (user) {
             if (user.status == true) {
 
